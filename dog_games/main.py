@@ -3,13 +3,14 @@ from tkinter import ttk
 import random
 from game_data import DOG_GAMES
 import os
+from PIL import Image, ImageTk
 
 class DogGameGenerator:
     def __init__(self, root):
         self.root = root
         self.root.title("Speel mee met Khyra")
-        self.root.geometry("800x700")  # Groter venster
-        self.root.configure(bg='#B3E0FF')  # Iets blauwere achtergrond
+        self.root.geometry("800x700")
+        self.root.configure(bg='#B3E0FF')
         
         if os.path.exists("dog_icon.ico"):
             self.root.iconbitmap("dog_icon.ico")
@@ -18,28 +19,57 @@ class DogGameGenerator:
         main_frame = ttk.Frame(root, padding="30")
         main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
         
-        # Grid configuratie zodat het frame meegroeit
+        # Grid configuratie
         root.grid_rowconfigure(0, weight=1)
         root.grid_columnconfigure(0, weight=1)
         
-        # Style configuratie
+        # Style configuratie met dikkere kaders
         style = ttk.Style()
         style.configure('Title.TLabel', font=('Comic Sans MS', 24, 'bold'), foreground='#4A90E2')
         style.configure('Game.TLabel', font=('Segoe UI', 11), foreground='#2C3E50')
         style.configure('Header.TLabel', font=('Comic Sans MS', 14, 'bold'), foreground='#4A90E2')
         style.configure('Tip.TLabel', font=('Segoe UI', 10, 'italic'), foreground='#6C757D')
         
-        # Frame styling
-        style.configure('TFrame', background='#B3E0FF')  # Match met hoofdachtergrond
-        style.configure('TLabelframe', background='#B3E0FF')
-        style.configure('TLabelframe.Label', font=('Comic Sans MS', 12, 'bold'), foreground='#4A90E2', background='#B3E0FF')
+        # Frame styling met dikkere kaders
+        style.configure('TFrame', background='#B3E0FF')
+        style.configure('TLabelframe', background='#B3E0FF', borderwidth=2)
+        style.configure('TLabelframe.Label', font=('Comic Sans MS', 12, 'bold'), 
+                       foreground='#4A90E2', background='#B3E0FF')
         
-        # Titel
-        title_label = ttk.Label(main_frame, 
+        # Maak een frame voor de titel en foto
+        title_frame = ttk.Frame(main_frame, style='TFrame')
+        title_frame.grid(row=0, column=0, pady=20)
+        
+        # Laad en verwerk de foto van Khyra
+        try:
+            # Laad de foto
+            image = Image.open("khyra.jpg")
+            # Maak de foto vierkant door te croppen vanaf het midden
+            width, height = image.size
+            size = min(width, height)
+            left = (width - size) // 2
+            top = (height - size) // 2
+            right = left + size
+            bottom = top + size
+            image = image.crop((left, top, right, bottom))
+            # Verklein naar gewenste grootte
+            image = image.resize((100, 100), Image.Resampling.LANCZOS)
+            # Maak een PhotoImage object
+            self.photo = ImageTk.PhotoImage(image)
+            # Maak een label voor de foto
+            photo_label = ttk.Label(title_frame, image=self.photo, background='#B3E0FF')
+            photo_label.grid(row=0, column=0, padx=10)
+        except Exception as e:
+            print(f"Kon foto niet laden: {e}")
+            photo_label = ttk.Label(title_frame, text="[Foto]", background='#B3E0FF')
+            photo_label.grid(row=0, column=0, padx=10)
+        
+        # Titel naast de foto
+        title_label = ttk.Label(title_frame, 
                               text="Speel mee met Khyra",
                               style='Title.TLabel',
                               background='#B3E0FF')
-        title_label.grid(row=0, column=0, pady=20)
+        title_label.grid(row=0, column=1, padx=10)
         
         # Knop met opmaak
         self.generate_button = tk.Button(main_frame, 
@@ -54,20 +84,22 @@ class DogGameGenerator:
                                        cursor='hand2')
         self.generate_button.grid(row=1, column=0, pady=20)
         
-        # Display frames met opmaak
+        # Display frames met dikkere kaders
         self.game_frame = ttk.LabelFrame(main_frame, 
                                        text="✨ Jouw spelletje ✨", 
-                                       padding="20")
+                                       padding="20",
+                                       relief="solid",
+                                       borderwidth=2)
         self.game_frame.grid(row=2, column=0, pady=15, sticky=(tk.W, tk.E))
         
-        # Labels voor speldetails met opmaak
+        # Labels voor speldetails
         self.name_label = ttk.Label(self.game_frame, text="", 
                                   style='Header.TLabel',
                                   background='#B3E0FF')
         self.name_label.grid(row=0, column=0, pady=5, sticky=tk.W)
         
         self.desc_label = ttk.Label(self.game_frame, text="", 
-                                  wraplength=700,  # Breder voor betere tekstweergave
+                                  wraplength=700,
                                   style='Game.TLabel',
                                   background='#B3E0FF')
         self.desc_label.grid(row=1, column=0, pady=5, sticky=tk.W)
@@ -77,14 +109,13 @@ class DogGameGenerator:
                                      background='#B3E0FF')
         self.details_label.grid(row=2, column=0, pady=5, sticky=tk.W)
         
-        # Filter frame met nieuwe stijl
+        # Filter frame met dikkere kaders
         filter_frame = ttk.LabelFrame(main_frame, 
                                     text="🎯 Kies je spelletje", 
-                                    padding="20")
+                                    padding="20",
+                                    relief="solid",
+                                    borderwidth=2)
         filter_frame.grid(row=3, column=0, pady=15, sticky=(tk.W, tk.E))
-        
-        # Combobox style
-        style.configure('TCombobox', font=('Segoe UI', 10))
         
         # Grid configuratie voor filter frame
         filter_frame.grid_columnconfigure(1, weight=1)
@@ -122,7 +153,7 @@ class DogGameGenerator:
                                 font=('Segoe UI', 10))
         type_combo.grid(row=1, column=1, padx=5, pady=(10,0), sticky=(tk.W, tk.E))
         
-        # Tip label met nieuwe stijl
+        # Tip label
         self.tip_label = ttk.Label(main_frame, 
                                 text="💡 Tip: Kies 'Herstel' voor rustige spelletjes tijdens herstel",
                                 style='Tip.TLabel',
@@ -131,11 +162,9 @@ class DogGameGenerator:
         self.tip_label.grid(row=4, column=0, pady=15)
 
     def generate_game(self):
-        # Voeg subtiel fade effect toe
         self.game_frame.grid_remove()
         self.root.update()
         
-        # Filter games based on selected criteria
         filtered_games = DOG_GAMES.copy()
         
         if self.difficulty_var.get() != "Alle":
@@ -156,16 +185,12 @@ class DogGameGenerator:
             self.desc_label.config(text="")
             self.details_label.config(text="")
         else:
-            # Select random game from filtered list
             game = random.choice(filtered_games)
-            
-            # Update display with emoji's
             self.name_label.config(text=f"🎯 {game['name']}")
             self.desc_label.config(text=f"📝 {game['description']}")
             self.details_label.config(
                 text=f"\n⏱️ Duur: {game['duration']}\n📊 Moeilijkheid: {game['difficulty']}\n🎮 Type: {game['type']}")
         
-        # Toon frame weer met fade effect
         self.game_frame.grid()
 
 def main():
