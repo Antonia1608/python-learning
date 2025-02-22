@@ -2,12 +2,18 @@ import tkinter as tk
 from tkinter import ttk
 import random
 from game_data import DOG_GAMES
+import os
+import sys
 
 class DogGameGenerator:
     def __init__(self, root):
         self.root = root
         self.root.title("Honden Spelletjes Generator")
         self.root.geometry("600x400")
+        
+        # Set icon
+        if os.path.exists("dog_icon.ico"):
+            self.root.iconbitmap("dog_icon.ico")
         
         # Hoofdframe
         main_frame = ttk.Frame(root, padding="20")
@@ -81,9 +87,31 @@ class DogGameGenerator:
         self.details_label.config(
             text=f"\nDuur: {game['duration']}\nMoeilijkheid: {game['difficulty']}")
 
+def create_shortcut():
+    try:
+        import winshell
+        from win32com.client import Dispatch
+        
+        desktop = winshell.desktop()
+        path = os.path.join(desktop, "Honden Spelletjes.lnk")
+        
+        shell = Dispatch('WScript.Shell')
+        shortcut = shell.CreateShortCut(path)
+        shortcut.Targetpath = sys.executable
+        shortcut.Arguments = os.path.abspath(sys.argv[0])
+        shortcut.IconLocation = os.path.abspath("dog_icon.ico")
+        shortcut.save()
+        return True
+    except:
+        return False
+
 def main():
     root = tk.Tk()
     app = DogGameGenerator(root)
+    
+    # Create desktop shortcut
+    create_shortcut()
+    
     root.mainloop()
 
 if __name__ == "__main__":
