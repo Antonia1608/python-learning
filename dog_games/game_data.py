@@ -3,48 +3,70 @@ DOG_GAMES = [
         "name": "Verstoppertje met speeltje",
         "description": "Laat je hond in een andere kamer wachten, verstop zijn favoriete speeltje en laat hem zoeken!",
         "duration": "5-10 minuten",
-        "difficulty": "Makkelijk"
+        "difficulty": "Makkelijk",
+        "type": "Actief"
     },
     {
         "name": "Snack onder bekertje",
         "description": "Zet drie bekertjes op een rij, doe een snoepje onder één ervan en schuif ze door elkaar. Laat je hond raden waar het snoepje is!",
         "duration": "5-15 minuten",
-        "difficulty": "Gemiddeld"
+        "difficulty": "Gemiddeld",
+        "type": "Herstel"
     },
     {
         "name": "Rol de handdoek",
         "description": "Leg wat snoepjes op een handdoek, rol deze op en laat je hond ze zoeken door de handdoek uit te rollen.",
         "duration": "10 minuten",
-        "difficulty": "Makkelijk"
+        "difficulty": "Makkelijk",
+        "type": "Actief"
     },
     {
-        "name": "Trap training",
-        "description": "Loop de trap op en af, laat je hond bij elke trede zitten voor een snoepje. Geweldige training én hersenwerk!",
+        "name": "Reuk memory",
+        "description": "Leg een traktatie in één van je gesloten handen, laat je hond ruiken en kies. Perfect om liggend te spelen!",
         "duration": "5-10 minuten",
-        "difficulty": "Gemiddeld"
-    },
-    {
-        "name": "Deken fort",
-        "description": "Maak een fort van dekens en verstop daar wat speeltjes in. Laat je hond ze zoeken!",
-        "duration": "10-15 minuten",
-        "difficulty": "Makkelijk"
+        "difficulty": "Makkelijk",
+        "type": "Herstel"
     },
     {
         "name": "Namen leren",
-        "description": "Leg verschillende speeltjes neer en leer je hond hun namen. Vraag steeds om een specifiek speeltje te halen.",
+        "description": "Leg verschillende speeltjes binnen handbereik en leer je hond hun namen. Vraag steeds om een specifiek speeltje aan te wijzen.",
         "duration": "10-20 minuten",
-        "difficulty": "Moeilijk"
+        "difficulty": "Moeilijk",
+        "type": "Herstel"
     },
     {
-        "name": "Ballon volleyball",
-        "description": "Blaas een ballon op en hou deze in de lucht. Veel honden vinden het geweldig om mee te doen!",
+        "name": "Rustige Target training",
+        "description": "Laat je hond vanuit liggende positie met de neus verschillende voorwerpen aanraken. Begin dichtbij en bouw langzaam uit.",
         "duration": "5-10 minuten",
-        "difficulty": "Makkelijk"
+        "difficulty": "Makkelijk",
+        "type": "Herstel"
     },
     {
-        "name": "Indoor apporteren met sokken",
-        "description": "Rol sokken op tot ballen en laat je hond ze één voor één terugbrengen naar de wasmand.",
+        "name": "Kalmerende klanken",
+        "description": "Maak verschillende zachte geluiden en beloon als je hond er rustig naar luistert. Geweldig voor ontspanning tijdens herstel.",
         "duration": "10-15 minuten",
-        "difficulty": "Makkelijk"
+        "difficulty": "Makkelijk",
+        "type": "Herstel"
+    },
+    {
+        "name": "Onder de deken",
+        "description": "Leg traktaties onder een lichte deken binnen makkelijk bereik. Laat je hond ze vinden terwijl ze comfortabel ligt.",
+        "duration": "5-10 minuten",
+        "difficulty": "Makkelijk",
+        "type": "Herstel"
+    },
+    {
+        "name": "Kong puzzel",
+        "description": "Vul een Kong met zachte traktaties. Perfect om rustig mee bezig te zijn zonder veel beweging.",
+        "duration": "15-30 minuten",
+        "difficulty": "Makkelijk",
+        "type": "Herstel"
+    },
+    {
+        "name": "Lick mat ontspanning",
+        "description": "Smeer wat zacht hondenvoer of leverpastei op een lick mat. Rustig likken is kalmerend en afleiding tijdens herstel.",
+        "duration": "10-20 minuten",
+        "difficulty": "Makkelijk",
+        "type": "Herstel"
     }
 ]
