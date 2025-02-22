@@ -3,15 +3,13 @@ from tkinter import ttk
 import random
 from game_data import DOG_GAMES
 import os
-import sys
 
 class DogGameGenerator:
     def __init__(self, root):
         self.root = root
         self.root.title("Honden Spelletjes Generator")
-        self.root.geometry("600x400")
+        self.root.geometry("600x450")  # Iets hoger voor extra filter
         
-        # Set icon
         if os.path.exists("dog_icon.ico"):
             self.root.iconbitmap("dog_icon.ico")
         
@@ -47,6 +45,7 @@ class DogGameGenerator:
         filter_frame = ttk.LabelFrame(main_frame, text="Filters", padding="10")
         filter_frame.grid(row=3, column=0, pady=10, sticky=(tk.W, tk.E))
         
+        # Eerste rij filters
         self.difficulty_var = tk.StringVar(value="Alle")
         ttk.Label(filter_frame, text="Moeilijkheid:").grid(row=0, column=0, padx=5)
         difficulty_combo = ttk.Combobox(filter_frame, textvariable=self.difficulty_var, 
@@ -58,6 +57,19 @@ class DogGameGenerator:
         duration_combo = ttk.Combobox(filter_frame, textvariable=self.max_duration_var,
                                     values=["Alle", "5 min", "10 min", "15 min", "20 min"])
         duration_combo.grid(row=0, column=3, padx=5)
+
+        # Tweede rij voor type filter
+        self.type_var = tk.StringVar(value="Alle")
+        ttk.Label(filter_frame, text="Type:").grid(row=1, column=0, padx=5, pady=(10,0))
+        type_combo = ttk.Combobox(filter_frame, textvariable=self.type_var,
+                                values=["Alle", "Herstel", "Actief"])
+        type_combo.grid(row=1, column=1, padx=5, pady=(10,0))
+        
+        # Tip label voor herstelspelletjes
+        self.tip_label = ttk.Label(main_frame, 
+                                text="Tip: Kies 'Herstel' voor rustige spelletjes die geschikt zijn tijdens herstel.",
+                                wraplength=500, font=('Helvetica', 9, 'italic'))
+        self.tip_label.grid(row=4, column=0, pady=10)
 
     def generate_game(self):
         # Filter games based on selected criteria
@@ -72,6 +84,10 @@ class DogGameGenerator:
             filtered_games = [game for game in filtered_games 
                             if int(game["duration"].split()[0].split("-")[0]) <= max_minutes]
         
+        if self.type_var.get() != "Alle":
+            filtered_games = [game for game in filtered_games 
+                            if game["type"] == self.type_var.get()]
+        
         if not filtered_games:
             self.name_label.config(text="Geen spelletjes gevonden met deze criteria!")
             self.desc_label.config(text="")
@@ -85,33 +101,11 @@ class DogGameGenerator:
         self.name_label.config(text=game["name"])
         self.desc_label.config(text=game["description"])
         self.details_label.config(
-            text=f"\nDuur: {game['duration']}\nMoeilijkheid: {game['difficulty']}")
-
-def create_shortcut():
-    try:
-        import winshell
-        from win32com.client import Dispatch
-        
-        desktop = winshell.desktop()
-        path = os.path.join(desktop, "Honden Spelletjes.lnk")
-        
-        shell = Dispatch('WScript.Shell')
-        shortcut = shell.CreateShortCut(path)
-        shortcut.Targetpath = sys.executable
-        shortcut.Arguments = os.path.abspath(sys.argv[0])
-        shortcut.IconLocation = os.path.abspath("dog_icon.ico")
-        shortcut.save()
-        return True
-    except:
-        return False
+            text=f"\nDuur: {game['duration']}\nMoeilijkheid: {game['difficulty']}\nType: {game['type']}")
 
 def main():
     root = tk.Tk()
     app = DogGameGenerator(root)
-    
-    # Create desktop shortcut
-    create_shortcut()
-    
     root.mainloop()
 
 if __name__ == "__main__":
